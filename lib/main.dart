@@ -3,6 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:esol_bus_2/appbar.dart';
 import 'package:esol_bus_2/drawer.dart';
 import 'package:esol_bus_2/pages/page_login.dart';
+import 'package:esol_bus_2/pages/page_messages.dart';
+
+import 'pages/page_messages.dart';
+import 'pages/page_messages.dart';
 
 void main() => runApp(MyApp());
 
@@ -19,6 +23,7 @@ class MyApp extends StatelessWidget {
         // When navigating to the "/" route, build the FirstScreen widget.
         '/': (context) => MyHomePage(title: 'Flutter Demo Home Page'),
         '/login': (context) => LoginScreen(),
+        '/messages': (context) => MessagePage(),
       },
       theme: ThemeData(
         // This is the theme of your application.
@@ -60,13 +65,31 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         body: SafeArea(
           child: Container(
+
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
-                Container(
-                  color: Colors.red,
-                  child: Text("content"),
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      Container(
+                        child: Row(
+                          children: <Widget>[
+                          _mainPageButton("Маршруты"),
+                          _mainPageButton("Остановки"),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        child: Row(
+                          children: <Widget>[
+                            _mainPageButton("Карта"),
+                        _mainPageButton("Проложить"),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -76,4 +99,17 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
+
+  Widget _mainPageButton(String text) {
+    return new  Expanded(
+      child: Container(
+        child: Center(
+          child: Container(
+              child: Text(text)),
+        ),
+      ),
+    );
+  }
+
+
 }

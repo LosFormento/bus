@@ -42,7 +42,9 @@ class _esolAppBarState extends State<esolAppBar> {
                     child: FlatButton(
                       padding: EdgeInsets.all(0),
                       child: Icon(Icons.notifications_none),
-                      onPressed: () =>{},
+                      onPressed: () =>{
+                        Navigator.pushNamed(context, '/messages')
+                      },
                     ),
                   ),
                 ),
