@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
@@ -65,7 +66,7 @@ class LoginScreenState extends State<LoginScreen> {
          if(data["code"] == 'SENT'){
            _data.step=data['code'];
            _formKey.currentState.save();
-           _waitForCode();
+           _waitForCode(true);
          }else{
 
          }
@@ -78,70 +79,10 @@ class LoginScreenState extends State<LoginScreen> {
      }
   }
 
-  Future<void> _waitForCode() async {
+   void _waitForCode(bool state) {
     setState(() {
-      _waitingForCode=true;
+      _waitingForCode=state;
     });
-  }
-
-  Widget _buildInput(bool waitingForCode) {
-    if (waitingForCode) {
-      return TextFormField(
-        decoration: InputDecoration(
-          filled: true,
-          hintText: 'XXXX',
-          labelText: 'Проверочный код',
-        ),
-        keyboardType: TextInputType.number,
-        validator: (value) {
-          if (value.isEmpty) {
-            return 'Нужно ввести проверочный код';
-          }
-          if(value.length > 4 || value.length <4){
-            return '4 цифры из смс';
-          }
-          return null;
-        },
-        onSaved: (String value){
-          _data.code = value;
-        },
-        // TextInputFormatters are applied in sequence.
-        inputFormatters: <TextInputFormatter>[
-          //WhitelistingTextInputFormatter.digitsOnly,
-          // Fit the validating format.
-          //_maskFormatter,
-        ],
-      );
-    }else{
-      return TextFormField(
-        decoration: InputDecoration(
-          filled: true,
-          hintText: '(xx)xxx-xx-xx',
-          labelText: 'Номер телефона',
-          prefixText: '+375 ',
-        ),
-        keyboardType: TextInputType.phone,
-        validator: (value) {
-          if (value.isEmpty) {
-            return 'Нужно ввести телефон';
-          }
-          final phoneExp = RegExp(r'^\(\d\d\)\d\d\d\-\d\d-\d\d$');
-          if (!phoneExp.hasMatch(value)) {
-            return 'Пример +375(29)XXX-XX-XX';
-          }
-          return null;
-        },
-        onSaved: (String value){
-          _data.phone = value;
-        },
-        // TextInputFormatters are applied in sequence.
-        inputFormatters: <TextInputFormatter>[
-          //WhitelistingTextInputFormatter.digitsOnly,
-          // Fit the validating format.
-          _maskFormatter,
-        ],
-      );
-    }
   }
 
 
@@ -162,7 +103,6 @@ class LoginScreenState extends State<LoginScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-
                 TextFormField(
                   decoration: InputDecoration(
                     filled: true,
@@ -191,46 +131,59 @@ class LoginScreenState extends State<LoginScreen> {
                     _maskFormatter,
                   ],
                 ),
-                TextFormField(
-                  enabled: _waitingForCode,
-                  decoration: InputDecoration(
-                    filled: true,
-                    hintText: 'XXXX',
-                    labelText: 'Проверочный код',
-                  ),
-                  keyboardType: TextInputType.number,
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      return 'Нужно ввести проверочный код';
-                    }
-                    if(value.length > 4 || value.length <4){
-                      return '4 цифры из смс';
-                    }
-                    return null;
-                  },
-                  onSaved: (String value){
-                    _data.code = value;
-                  },
-                  // TextInputFormatters are applied in sequence.
-                  inputFormatters: <TextInputFormatter>[
-                    //WhitelistingTextInputFormatter.digitsOnly,
-                    // Fit the validating format.
-                    //_maskFormatter,
-                  ],
+                Container(
+                  margin: EdgeInsets.only(top: 50),
+                  child: _waitingForCode ?
+                  TextFormField(
+                    decoration: InputDecoration(
+                      filled: true,
+                      hintText: 'XXXX',
+                      labelText: 'Проверочный код',
+                    ),
+                    keyboardType: TextInputType.number,
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'Нужно ввести проверочный код';
+                      }
+                      if(value.length > 4 || value.length <4){
+                        return '4 цифры из смс';
+                      }
+                      return null;
+                    },
+                    onSaved: (String value){
+                      _data.code = value;
+                    },
+                    // TextInputFormatters are applied in sequence.
+                    inputFormatters: <TextInputFormatter>[
+                      //WhitelistingTextInputFormatter.digitsOnly,
+                      // Fit the validating format.
+                      //_maskFormatter,
+                    ],
+                  ) : Container(),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16.0),
                   child: Center(
-                    child: RaisedButton(
-                      child: Text('Войти'),
-                      onPressed: () async {
-                        // Validate returns true if the form is valid, or false
-                        // otherwise.
-                        if (_formKey.currentState.validate()) {
-                          // If the form is valid, display a Snackbar.
-                          this.submit();
-                        }
-                      },
+                    child: Row(
+                      children: <Widget>[
+                        RaisedButton(
+                          child: Text('Войти'),
+                          onPressed: () async {
+                            // Validate returns true if the form is valid, or false
+                            // otherwise.
+                            if (_formKey.currentState.validate()) {
+                              // If the form is valid, display a Snackbar.
+                              this.submit();
+                            }
+                          },
+                        ),
+                        RaisedButton(
+                          child: Text('Отмена'),
+                          onPressed: () {
+                              Navigator.pop(context);
+                          },
+                        ),
+                      ],
                     ),
                   ),
                 ),
