@@ -5,7 +5,7 @@ import 'package:esol_bus_2/appbar.dart';
 import 'package:esol_bus_2/drawer.dart';
 import 'package:esol_bus_2/pages/page_messages.dart';
 import 'package:esol_bus_2/pages/page_direction_detail.dart';
-import 'pages/page_messages.dart';
+import 'pages/page_messages.dart';import 'package:esol_bus_2/pages/page_direction_detail_test.dart';
 
 
 void main() => runApp(MyApp());
@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
         '/login': (context) => LoginScreen(),
         '/messages': (context) => MessagePage(),
         '/directions': (context) => DirectionPage(),
-        '/direction_detail': (context) => DirectionDetailPage(),
+        '/direction_detail': (context) => FutureBuilderWidget(),
       },
       theme: ThemeData(
         // This is the theme of your application.

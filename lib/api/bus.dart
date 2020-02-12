@@ -1,0 +1,9 @@
+import 'package:esol_bus_2/models/direction.dart';
+import 'package:http/http.dart' as http;
+import 'dart:async';
+String url = 'https://jsonplaceholder.typicode.com/posts';
+///Method for GET Request
+Future<Demo> getDemoResponse() async{
+  final response = await http.get('$url/1');
+  return responseFromJson(response.body);
+}
