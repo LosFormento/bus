@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 class esolAppBar extends StatefulWidget {
   @override
   _esolAppBarState createState() => _esolAppBarState();
-
 }
 
 class _esolAppBarState extends State<esolAppBar> {

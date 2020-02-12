@@ -26,6 +26,7 @@ class _LoginData {
 
   Map<String, dynamic> toJson() =>
       {
+        'code':code,
         'phone': phone,
       };
 }
@@ -49,6 +50,30 @@ class LoginScreenState extends State<LoginScreen> {
      if(_data.step == 'SENT'){
         print('waiting for code input');
         print(_data.phone);
+        print(_data.code);
+        var url = 'http://174.by/api/phone/verify';
+        var client = http.Client();
+
+        try {
+          final uriResponse = await client.post(url,
+            body: jsonEncode(_data.toJson()),
+            headers: {
+              HttpHeaders.contentTypeHeader: "application/json",
+              HttpHeaders.acceptCharsetHeader:"UTF-8"
+            },
+          );
+
+          print(uriResponse.body);
+
+          var data=jsonDecode(uriResponse.body);
+
+          if(data['user']){
+            print(data['user_token']);
+            Navigator.pop(context);
+          }
+        }finally {
+          client.close();
+        }
 
      }else{
        var url = 'http://174.by/api/phone/create';
@@ -165,6 +190,7 @@ class LoginScreenState extends State<LoginScreen> {
                   padding: const EdgeInsets.symmetric(vertical: 16.0),
                   child: Center(
                     child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         RaisedButton(
                           child: Text('Войти'),
