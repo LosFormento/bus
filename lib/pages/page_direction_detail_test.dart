@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:esol_bus_2/models/direction.dart';
 import 'package:esol_bus_2/api/bus.dart';
 
-class FutureBuilderWidget extends StatefulWidget {
+class DirectionDetailPage extends StatefulWidget {
   @override
-  _FutureBuilderWidgetState createState() => _FutureBuilderWidgetState();
+  _DirectionDetailPageState createState() => _DirectionDetailPageState();
 }
 
-class _FutureBuilderWidgetState extends State<FutureBuilderWidget> {
+class _DirectionDetailPageState extends State<DirectionDetailPage> {
   bool _isButtonClicked = false;
   var _buttonIcon = Icons.cloud_download;
   var _buttonText = "Fetch Data";
@@ -31,14 +31,13 @@ class _FutureBuilderWidgetState extends State<FutureBuilderWidget> {
         ),
       ),
       body: Center(
-        child: FutureBuilder<Demo>(
+        child: FutureBuilder<Direction>(
           ///If future is null then API will not be called as soon as the screen
           ///loads. This can be used to make this Future Builder dependent
           ///on a button click.
-          future: _isButtonClicked ? getDemoResponse() : null,
+          future:  getDetail(42),
           builder: (context, snapshot) {
             switch (snapshot.connectionState) {
-
             ///when the future is null
               case ConnectionState.none:
                 return Text(
@@ -63,7 +62,7 @@ class _FutureBuilderWidgetState extends State<FutureBuilderWidget> {
                   );
                 ///task is complete with some data
                 return Text(
-                  'Fetched Data:\n\n${snapshot.data.title}',
+                  'Fetched Data:\n\n${snapshot.data.dirTitle}',
                   textAlign: TextAlign.center,
                 );
             }
@@ -75,7 +74,7 @@ class _FutureBuilderWidgetState extends State<FutureBuilderWidget> {
         backgroundColor: _buttonColor,
         onPressed: () {
           ///Calling method to fetch data from the server
-          getDemoResponse();
+          getDetail(42);
 
           ///You need to reset UI by calling setState.
           setState(() {

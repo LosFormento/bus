@@ -5,14 +5,13 @@ import 'package:esol_bus_2/appbar.dart';
 import 'package:esol_bus_2/drawer.dart';
 import 'package:esol_bus_2/pages/page_messages.dart';
 import 'package:esol_bus_2/pages/page_direction_detail.dart';
-import 'pages/page_messages.dart';import 'package:esol_bus_2/pages/page_direction_detail_test.dart';
+import 'pages/page_messages.dart';
 
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
-
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +24,7 @@ class MyApp extends StatelessWidget {
         '/login': (context) => LoginScreen(),
         '/messages': (context) => MessagePage(),
         '/directions': (context) => DirectionPage(),
-        '/direction_detail': (context) => FutureBuilderWidget(),
+        '/direction_detail': (context) => DirectionDetailPage(),
       },
       theme: ThemeData(
         // This is the theme of your application.
@@ -53,7 +52,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
-  var _appbar= new esolAppBar();
+  var _appbar= new EsolAppBar();
   var _drawer= new esolDrawer();
   var _isLogged=false;
 

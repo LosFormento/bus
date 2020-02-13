@@ -1,11 +1,11 @@
-import 'package:esol_bus_2/drawer.dart';
+
 import 'package:flutter/material.dart';
-class esolAppBar extends StatefulWidget {
+class EsolAppBar extends StatefulWidget {
   @override
-  _esolAppBarState createState() => _esolAppBarState();
+  _EsolAppBarState createState() => _EsolAppBarState();
 }
 
-class _esolAppBarState extends State<esolAppBar> {
+class _EsolAppBarState extends State<EsolAppBar> {
   bool $hasMessage=false;
   void setHasMessage() {
     setState(() {
