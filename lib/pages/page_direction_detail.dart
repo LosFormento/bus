@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:esol_bus_2/models/direction.dart';
 import 'package:esol_bus_2/api/bus.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'dart:async';
 
 class DirectionDetailPage extends StatefulWidget {
   @override
@@ -8,11 +10,14 @@ class DirectionDetailPage extends StatefulWidget {
 }
 
 class _DirectionDetailPageState extends State<DirectionDetailPage> {
-
-  int dirId=42;
+  String dirId;
 
   @override
+
   Widget build(BuildContext context) {
+    Map args = ModalRoute.of(context).settings.arguments;
+    dirId=args['id'];
+    //print(args['title']);
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -26,12 +31,10 @@ class _DirectionDetailPageState extends State<DirectionDetailPage> {
             ],
           ),
           title: Container(
-            child: Center(
-              child: Text(
-                'Маршрут детально',
-              ),
+            child: Text(
+              '${args['name']} ${args['title']}',
             ),
-            margin: EdgeInsets.only(right: 48),
+
           ),
         ),
         body: Container(
@@ -50,9 +53,10 @@ class _DirectionDetailPageState extends State<DirectionDetailPage> {
                       textAlign: TextAlign.center,
                     );
                   return TabBarView(
+                    physics: NeverScrollableScrollPhysics(),
                     children: [
                       _detailPage(snapshot),
-                      Icon(Icons.directions_bus),
+                      _mapDirectoryView(snapshot),
                     ],
                   );
               }
@@ -66,17 +70,22 @@ class _DirectionDetailPageState extends State<DirectionDetailPage> {
   Widget _detailPage(AsyncSnapshot snapshot) {
     List ostList = snapshot.data.ostList;
     List firstStopDays=snapshot.data.firstStopInfo['data']['_${snapshot.data.transportName}']['directions']['_${this.dirId}']['days'];
-    print(firstStopDays[1]['timelist']);
+    //print(firstStopDays[1]['timelist']);
 
     return Column(
       children: <Widget>[
-        Text(
-          'Отправление от  ${ostList[0].name}',
-        ),
         Container(
+          padding: EdgeInsets.all(15),
+          child: Text(
+            'Отправление от  ${ostList[0].name}',
+          ),
+        ),
+        Expanded(
+          flex: 4,
           child: _timeListTabs(firstStopDays),
         ),
         Expanded(
+          flex: 7,
           child: Container(
             child: _ostScroll(ostList),
           ),
@@ -108,27 +117,28 @@ class _DirectionDetailPageState extends State<DirectionDetailPage> {
       tabs.add(Text( element['plan_content_name'])),
       tabviews.add(
         Container(
-
           child: Text(element['timelist']),
       ),
       )});
-    return DefaultTabController(
-      length: timeLists.length,
-      child: Expanded(
+    return Container(
+      child: DefaultTabController(
+        length: timeLists.length,
         child: Column(
           children: <Widget>[
             Container(
               //constraints: BoxConstraints.expand(height: 50),
               child: TabBar(
                   labelColor: const Color(0xFF3baee7),
-                  labelPadding: EdgeInsets.all(0),
+                  labelPadding: EdgeInsets.symmetric(vertical:15,horizontal: 0),
                   isScrollable: false,
                   tabs: tabs),
             ),
             Expanded(
               child: Container(
+                padding: EdgeInsets.all(15),
                 child: TabBarView(
-                    children: tabviews,
+
+                  children: tabviews,
                 ),
               ),
             )
@@ -137,12 +147,32 @@ class _DirectionDetailPageState extends State<DirectionDetailPage> {
       ),
     );
   }
-
   Widget _ostScroll(List stops) {
     return CustomScrollView(slivers: <Widget>[
+
       SliverList(
         delegate: SliverChildListDelegate(_buildExpandableContent(stops)),
       ),
     ]);
   }
+  
+  Widget _mapDirectoryView(snapshot){
+
+    return Container(
+         child: GoogleMap(
+           mapType: MapType.hybrid,
+           initialCameraPosition: CameraPosition(
+             target: LatLng(52.792747, 27.543261),
+             zoom: 17,
+           ),
+           onMapCreated: (GoogleMapController controller) {
+             Completer();
+           },
+
+         ),
+
+    );    
+    
+  }
+  
 }

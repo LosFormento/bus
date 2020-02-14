@@ -38,7 +38,12 @@ class DirectionPageState extends State<DirectionPage> {
           return Card(
             child: FlatButton(
               onPressed: (){
-                Navigator.pushNamed(context, '/direction_detail');
+                Navigator.pushNamed(context, '/direction_detail',
+                  arguments: <String, String>{
+                  'name': directions[index]["name"],
+                    'title':directions[index]["dir_title"],
+                  'id': directions[index]["dir_id"],
+                },);
               },
               child: Row(
                 children: <Widget>[
@@ -51,9 +56,6 @@ class DirectionPageState extends State<DirectionPage> {
                     child: Flexible(
                       child: Text(directions[index]["dir_title"]),
                     ),
-                  ),
-                  Container(
-                    child: Text(directions[index]["dir_id"]),
                   ),
                 ],
               ),
