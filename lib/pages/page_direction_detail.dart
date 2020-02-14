@@ -157,13 +157,36 @@ class _DirectionDetailPageState extends State<DirectionDetailPage> {
   }
   
   Widget _mapDirectoryView(snapshot){
+    final Set<Polyline> _polyline = {};
+    List<LatLng> latlngSegment1 = List();
 
+    List items=[];
+    List points= snapshot.data.routePoints.split(";");
+    points.forEach((element) =>
+            ( items.add(element.split(',')))
+    );
+
+    List stops=[];
+    items.forEach((element) =>
+    ( latlngSegment1.add(LatLng(double.tryParse( element[0]),double.tryParse( element[1]))))
+    );
+
+    _polyline.add(Polyline(
+      polylineId: PolylineId('line1'),
+      visible: true,
+      //latlng is List<LatLng>
+      points: latlngSegment1,
+      width: 2,
+      color: Colors.blue,
+    ));
+   // print(latlngSegment1);
     return Container(
          child: GoogleMap(
-           mapType: MapType.hybrid,
+           mapType: MapType.normal,
+           polylines: _polyline,
            initialCameraPosition: CameraPosition(
              target: LatLng(52.792747, 27.543261),
-             zoom: 17,
+             zoom: 12,
            ),
            onMapCreated: (GoogleMapController controller) {
              Completer();

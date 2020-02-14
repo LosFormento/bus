@@ -7,7 +7,6 @@ import 'package:esol_bus_2/pages/page_messages.dart';
 import 'package:esol_bus_2/pages/page_direction_detail.dart';
 import 'pages/page_messages.dart';
 
-
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -46,28 +45,26 @@ class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
 
   final String title;
+
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
-  var _appbar= new EsolAppBar();
-  var _drawer= new esolDrawer();
-  var _isLogged=false;
-
+  var _appbar = new EsolAppBar();
+  var _drawer = new esolDrawer();
+  var _isLogged = false;
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         appBar: PreferredSize(
-          child:  _appbar,
+          child: _appbar,
           preferredSize: Size.fromHeight(200),
         ),
         body: SafeArea(
           child: Container(
-
             child: Column(
               children: <Widget>[
                 Expanded(
@@ -77,16 +74,16 @@ class _MyHomePageState extends State<MyHomePage> {
                       Container(
                         child: Row(
                           children: <Widget>[
-                          _mainPageButton("Маршруты",'/directions'),
-                          _mainPageButton("Остановки",'/'),
+                            _mainPageButton("Маршруты", '/directions'),
+                            _mainPageButton("Остановки", '/'),
                           ],
                         ),
                       ),
                       Container(
                         child: Row(
                           children: <Widget>[
-                            _mainPageButton("Карта",'/'),
-                        _mainPageButton("Проложить",'/'),
+                            _mainPageButton("Карта", '/'),
+                            _mainPageButton("Проложить", '/'),
                           ],
                         ),
                       ),
@@ -97,21 +94,20 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ),
         ),
-        drawer: _drawer,// This trailing comma makes auto-formatting nicer for build methods.
+        drawer:
+            _drawer, // This trailing comma makes auto-formatting nicer for build methods.
       ),
     );
   }
 
-  Widget _mainPageButton(String text,String route) {
-    return new  Expanded(
+  Widget _mainPageButton(String text, String route) {
+    return new Expanded(
       child: Container(
         child: Center(
           child: Container(
-              child: FlatButton(
-                child: Text(text),
-                onPressed: () =>{
-                Navigator.pushNamed(context, route)
-              },
+            child: FlatButton(
+              child: Text(text),
+              onPressed: () => {Navigator.pushNamed(context, route)},
             ),
           ),
         ),
@@ -119,11 +115,9 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  void setUser(bool isLogged){
+  void setUser(bool isLogged) {
     setState(() {
-      _isLogged=isLogged;
+      _isLogged = isLogged;
     });
   }
-
-
 }
