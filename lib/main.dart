@@ -1,4 +1,6 @@
 import 'package:esol_bus_2/pages/page_directions.dart';
+import 'package:esol_bus_2/pages/page_stop_detail.dart';
+import 'package:esol_bus_2/pages/page_stops.dart';
 import 'package:esol_bus_2/pages/page_login.dart';
 import 'package:flutter/material.dart';
 import 'package:esol_bus_2/appbar.dart';
@@ -23,7 +25,9 @@ class MyApp extends StatelessWidget {
         '/login': (context) => LoginScreen(),
         '/messages': (context) => MessagePage(),
         '/directions': (context) => DirectionPage(),
+        '/stops': (context) => StopPage(),
         '/direction_detail': (context) => DirectionDetailPage(),
+        '/stop_detail': (context) => StopDetailPage(),
       },
       theme: ThemeData(
         // This is the theme of your application.
@@ -75,7 +79,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         child: Row(
                           children: <Widget>[
                             _mainPageButton("Маршруты", '/directions'),
-                            _mainPageButton("Остановки", '/'),
+                            _mainPageButton("Остановки", '/stops'),
                           ],
                         ),
                       ),

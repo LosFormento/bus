@@ -3,24 +3,24 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-class DirectionPage extends StatefulWidget {
+class StopPage extends StatefulWidget {
   @override
-  DirectionPageState createState() => new DirectionPageState();
+  StopPageState createState() => new StopPageState();
 }
 
-class DirectionPageState extends State<DirectionPage> {
+class StopPageState extends State<StopPage> {
   var data;
   List directions;
   List directionsForDisplay;
   Future<String> getData() async {
     var response = await http.get(
-        Uri.encodeFull("http://bus.esoligorsk.by/json/direction_app_json.php"),
+        Uri.encodeFull("http://bus.esoligorsk.by/json/poi.json"),
         headers: {"Accept": "application/json; charset=utf-8"});
     this.setState(() {
       data = jsonDecode(response.body);
     });
     //print(data['ost_list']);
-    directions = data['ost_list'];
+    directions = data;
     directionsForDisplay = directions;
 
     return "Success!";
@@ -29,13 +29,12 @@ class DirectionPageState extends State<DirectionPage> {
   @override
   void initState() {
     this.getData();
-
   }
 
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      appBar: AppBar(title: new Text("Маршруты")),
+      appBar: AppBar(title: new Text("Остановки")),
       body: Container(
         child: Column(
           children: <Widget>[
@@ -47,7 +46,7 @@ class DirectionPageState extends State<DirectionPage> {
                   setState(() {
                     directionsForDisplay = directions.where((note) {
                       var noteTitle = note["name"].toLowerCase();
-                      var noteDesc=note["dir_title"].toLowerCase();
+                      var noteDesc=note["alias"].toLowerCase();
                       return noteTitle.contains(text) ||  noteDesc.contains(text);
                     }).toList();
                   });
@@ -77,28 +76,39 @@ class DirectionPageState extends State<DirectionPage> {
 
   Widget _direction(index){
    return Card(
+
       child: FlatButton(
         onPressed: (){
-          Navigator.pushNamed(context, '/direction_detail',
+          Navigator.pushNamed(context, '/stop_detail',
             arguments: <String, String>{
               'name': directionsForDisplay[index]["name"],
-              'title':directionsForDisplay[index]["dir_title"],
-              'id': directionsForDisplay[index]["dir_id"],
+              'title':directionsForDisplay[index]["comment"],
+              'id': directionsForDisplay[index]["id"].toString(),
             },);
         },
-        child: Row(
-          children: <Widget>[
-            Container(
-              margin: EdgeInsets.only(right: 15),
-              width: 30,
-              child: Center(child: Text(directionsForDisplay[index]["name"])),
+
+        child: Container(
+
+          height: 50,
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Container(
+                  //margin: EdgeInsets.only(right: 15),
+                  //width: 30,
+                  child: Text(directionsForDisplay[index]["name"],style: TextStyle(fontSize: 18),),
+                ),
+                Container(
+                  child: Flexible(
+                    child: Text(directionsForDisplay[index]["comment"]),
+                  ),
+                ),
+              ],
             ),
-            Container(
-              child: Flexible(
-                child: Text(directionsForDisplay[index]["dir_title"]),
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );

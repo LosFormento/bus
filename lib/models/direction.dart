@@ -5,7 +5,6 @@ import 'dart:convert';
 
 ///Used to map JSON data fetched from the server
 Direction responseFromJson(String jsonString,String jsonFirstStop) {
-
   final jsonData = json.decode(jsonString);
   final jsonFirstStopData = json.decode(jsonFirstStop);
   return Direction.fromJson(jsonData,jsonFirstStopData);
