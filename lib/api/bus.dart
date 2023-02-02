@@ -11,8 +11,6 @@ Future<Direction> getDetail(String dirId) async{
   var stops=jsonDecode(response.body);
   var stopId=stops['ost_list'][0]['ost_id'];
   final responseFirstStop = await http.get('$url/timetables2_app_json.php?id=$stopId&dir_id=$dirId');
-  print('dirId:$dirId, ost_id:$stopId');
-
   return responseFromJson(response.body,responseFirstStop.body);
 }
 Future<List> getStopDetail(String stopId) async{
