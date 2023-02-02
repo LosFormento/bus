@@ -3,8 +3,7 @@ import 'dart:convert';
 import 'package:esol_bus_2/models/direction.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
-String url = 'http://bus.esoligorsk.by/json';
-///Method for GET Request
+String url = 'here is url';
 
 Future<Direction> getDetail(String dirId) async{
 
