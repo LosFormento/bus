@@ -1,9 +1,5 @@
 import 'dart:convert';
 
-///Use this https://app.quicktype.io/ converter tool to create your ///data class according to the JSON response.
-///API used here is - https://jsonplaceholder.typicode.com/posts/1
-
-///Used to map JSON data fetched from the server
 Direction responseFromJson(String jsonString,String jsonFirstStop) {
   final jsonData = json.decode(jsonString);
   final jsonFirstStopData = json.decode(jsonFirstStop);
